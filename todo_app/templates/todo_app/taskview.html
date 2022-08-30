@@ -1,0 +1,77 @@
+{%extends 'base.html'%}
+{%block title%} {%endblock%}
+{%block main%}
+<div class="row">
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <h3>Todo-List</h3>
+    </div>
+</div>
+<div class="row mt-5 mb-5">
+    <div class="col-md-7 col-12">
+        <div class="col d-flex justify-content-start">
+            <a href="{%url 'taskform-page'%}" class="text-decoration-none add">
+                <ion-icon name="add" class="fs-1"></ion-icon>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-5 col-12 d-flex align-items-center">
+        <div class="col">
+            <form class="d-flex">
+                <input class="form-control me-2" name="q" type="search" placeholder="Find Tasks.." aria-label="Search" autofocus>
+                <input type="submit" value="search" class="px-1 py-0 search">
+              </form>        
+        </div>
+    </div>
+</div>
+
+{%for task in tasks%}
+<div class="row mb-3">
+    <div class="col-md-7 col-12">
+        {% if task.done == True%}
+        <small class="ps-2 outline" style="text-decoration:line-through;">{{task.title |truncatechars:20 |capfirst}}</small>
+        {%else%}
+        <small class="ps-2 outline">{{task.title |truncatechars:20 |capfirst}}</small>
+        {%endif%}
+    </div>
+    <div class="col-md-5 col-12">
+        <div class="row">
+            <div class="col d-flex justify-content-end">
+                {% if task.done == True%}
+                <a href="" class="text-decoration-none text-dark">
+                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                </a>
+                {%else%}
+                <small style="color:black;">pending</small>
+                {%endif%}
+                <a href="{%url 'taskupdate-page' task.id%}" class="text-decoration-none text-dark ms-3">
+                    <ion-icon name="create"></ion-icon>
+                </a>
+                <!-- Button trigger modal -->
+                <a href="" class="text-decoration-none text-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <ion-icon name="trash" class="ms-2"></ion-icon>
+                </a>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <small>Are you sure you want to delete this task?</small>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="" class="text-decoration-none text-secondary" data-bs-dismiss="modal">Close</a>
+                                <a href="{% url 'delete' task.id%}" class="text-decoration-none text-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>
+{%endfor%}
+{%endblock%}

@@ -1,0 +1,11 @@
+{%extends 'base.html'%}
+{%block title%} {%endblock%}
+{%block main%}
+{% load crispy_forms_tags %}
+<form action="" method="POST">
+    {%csrf_token%}
+    {{form |crispy}}
+    <input type="submit" value="Add Task" class="btn btn-outline-info">
+</form>
+   
+{%endblock%}
